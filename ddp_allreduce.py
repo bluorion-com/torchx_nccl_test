@@ -20,7 +20,7 @@ dist.all_reduce(a, op=dist.ReduceOp.SUM)
 end_time = time.time()
 runtime = end_time - start_time
 
-print(f"all_reduce took {runtime} seconds for {args.num_integers} integers, {32 * args.num_integers / 1024.0**3 / runtime} GB/s")
+print(f"all_reduce took {runtime} seconds for {args.num_integers} integers, {4 * args.num_integers / 1024.0**3 / runtime} GB/s")
 
 a = a[0].item()
 print(f"all_reduce output = {a}")
