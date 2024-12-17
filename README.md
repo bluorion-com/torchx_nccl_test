@@ -1,12 +1,11 @@
 # Setup
-
 ```
 ./setup.sh
 ```
 
 # Run test
 ```
-export NUM_GPUS=16
+export NUM_GPUS=120  # 15 * 8
 
 torchx run \
   --workspace="" \
@@ -14,7 +13,7 @@ torchx run \
   --script ddp_allreduce.py \
   -j ${NUM_GPUS}x1 \
   --gpu 1 \
-  --image gueraf/torchx_tmp@sha256:41bd45c736b6da020464b0fcc5b8b9b6c621f05688e6f1652456fd438a96d856
+  --image gueraf/torchx_tmp@sha256:97b43bf0ad698d9ed8ea680674aa4f730439a27e28c5bdf3add4fb793138d4d6
 ```
 
 # Determine size of pool
