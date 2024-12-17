@@ -13,7 +13,7 @@ torchx run \
   --scheduler kubernetes dist.ddp \
   -j ${NUM_GPUS}x1 \
   --gpu 1 \
-  --image gueraf/torchx_tmp@sha256:ec8b27668e8a9520c5e454fbc752448cbef6d90fea438a756d990ddcb05e192f \
+  --image gueraf/torchx_tmp@sha256:30f4479d05dac7a93bdf2a350b147f08df4df66c78470b702ab985e9e0901b31 \
   --script ddp_allreduce.py \
   -- \
   --num_integers 1000000
