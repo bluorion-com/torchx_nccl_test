@@ -4,9 +4,9 @@
 pipx install torchx[kubernetes]
 
 echo "[kubernetes]" > ~/.torchxconfig
-echo "queue=torchx" >> ~/.torchxconfig
+echo "queue=default" >> ~/.torchxconfig
 echo "namespace=user-ns" >> ~/.torchxconfig
-echo "image_repo=docker.io" >> ~/.torchxconfig
+echo "image_repo=docker.io/gueraf/torchx_tmp" >> ~/.torchxconfig
 ```
 
 # Test
@@ -15,6 +15,5 @@ git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_te
 
 # TODO: Write test script.
 
-torchx run --scheduler kubernetes utils.echo --image pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel --msg hello
-
+torchx run --workspace="" --scheduler kubernetes utils.echo --image gueraf/torchx_tmp --msg hello
 ```
