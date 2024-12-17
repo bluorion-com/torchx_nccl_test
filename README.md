@@ -6,14 +6,14 @@ git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_te
 
 # Run test
 ```
-export NUM_GPUS=72  # 9 * 8
+export NUM_GPUS=104  # 13 * 8
 
 torchx run \
   --workspace="" \
   --scheduler kubernetes dist.ddp \
   -j ${NUM_GPUS}x1 \
   --gpu 1 \
-  --image gueraf/torchx_tmp@sha256:30f4479d05dac7a93bdf2a350b147f08df4df66c78470b702ab985e9e0901b31 \
+  --image gueraf/torchx_tmp@sha256:5456aed13bfaf896fc54557db2bc5359d3e813e51c15eeda178c9e75ab89453a \
   --script ddp_allreduce.py \
   -- \
   --num_integers 1000000
