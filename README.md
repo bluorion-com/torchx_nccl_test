@@ -6,7 +6,7 @@ git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_te
 
 # Run test
 ```
-export NUM_GPUS=112  # 14 * 8
+export NUM_GPUS=108  # 13 * 8
 
 torchx run \
   --workspace="" \
@@ -17,6 +17,22 @@ torchx run \
   --image gueraf/torchx_tmp@sha256:97b43bf0ad698d9ed8ea680674aa4f730439a27e28c5bdf3add4fb793138d4d6
 
 kubectl get jobs.batch.volcano.sh --sort-by=.metadata.creationTimestamp | tail -n 1
+```
+
+# Restart scheduler (after re-tagging)
+```
+kubectl get pods \
+  | grep volcano \
+  | grep scheduler \
+  | grep -oP "^[^\s]+" \
+  | xargs kubectl delete pod
+```
+
+# Re-label nodes
+```
+kubectl get nodes --selector='ray-gpu-status=gpu-hospital' \
+  | grep -oP "th03[^\s]+" \
+  | xargs -I % kubectl label node % ray-gpu-status=volcano --overwrite
 ```
 
 # Debug scheduling issues
