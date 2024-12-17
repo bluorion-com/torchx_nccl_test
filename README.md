@@ -1,19 +1,23 @@
 # Setup
 
 ```
-pipx install torchx[kubernetes]
-
-echo "[kubernetes]" > ~/.torchxconfig
-echo "queue=default" >> ~/.torchxconfig
-echo "namespace=user-ns" >> ~/.torchxconfig
-echo "image_repo=docker.io/gueraf/torchx_tmp" >> ~/.torchxconfig
+./setup.sh
 ```
 
-# Test
+# Run test
 ```
-git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_test
+export NUM_GPUS=16
 
-# TODO: Write test script.
+torchx run \
+  --workspace="" \
+  --scheduler kubernetes dist.ddp \
+  --script ddp_allreduce.py \
+  -j ${NUM_GPUS}x1 \
+  --gpu 1 \
+  --image gueraf/torchx_tmp@sha256:41bd45c736b6da020464b0fcc5b8b9b6c621f05688e6f1652456fd438a96d856
+```
 
-torchx run --workspace="" --scheduler kubernetes dist.ddp --script ddp_allreduce.py -j 1x8 --gpu 8 --image gueraf/torchx_tmp
+# Determine size of pool
+```
+kubectl get nodes --selector='ray-gpu-status=volcano' | wc -l
 ```
