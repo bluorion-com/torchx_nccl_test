@@ -13,7 +13,7 @@ torchx run \
   --scheduler kubernetes dist.ddp \
   -j ${NUM_GPUS}x1 \
   --gpu 1 \
-  --image gueraf/torchx_tmp@sha256:34020c007b72ba4ad3f62835bd0c4cb5a4832dbbb747bdde8e273a5b953e0751 \
+  --image gueraf/torchx_tmp@sha256:ec8b27668e8a9520c5e454fbc752448cbef6d90fea438a756d990ddcb05e192f \
   --script ddp_allreduce.py \
   -- \
   --num_integers 1000000
@@ -52,6 +52,10 @@ kubectl get pods -o wide \
 kubectl get jobs.batch.volcano.sh \
   | grep -oP "ddp[^\s]+" \
   | xargs kubectl delete jobs.batch.volcano.sh
+
+kubectl get pods \
+  | grep -oP "ddp[^\s]+" \
+  | xargs kubectl delete pod
 
 ```
 
