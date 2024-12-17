@@ -15,5 +15,5 @@ git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_te
 
 # TODO: Write test script.
 
-torchx run --workspace="" --scheduler kubernetes utils.echo --image gueraf/torchx_tmp --msg hello
+torchx run --workspace="" --scheduler kubernetes dist.ddp --script ddp_allreduce.py -j 1x8 --gpu 8 --image gueraf/torchx_tmp
 ```
