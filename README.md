@@ -6,7 +6,7 @@ git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_te
 
 # Run test
 ```
-export NUM_GPUS=108  # 13 * 8
+export NUM_GPUS=72  # 9 * 8
 
 torchx run \
   --workspace="" \
@@ -55,5 +55,8 @@ kubectl get jobs.batch.volcano.sh \
 
 # Determine size of pool
 ```
-kubectl get nodes --selector='ray-gpu-status=volcano' | wc -l
+kubectl get nodes --selector='ray-gpu-status=volcano' \
+  | grep Ready \
+  | wc -l
+
 ```
