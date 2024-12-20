@@ -1,7 +1,8 @@
-import torch
-import socket
 import argparse
+import socket
 import time
+
+import torch
 import torch.distributed as dist
 
 parser = argparse.ArgumentParser(description="DDP AllReduce Example")
@@ -20,8 +21,11 @@ dist.all_reduce(a, op=dist.ReduceOp.SUM)
 end_time = time.time()
 runtime = end_time - start_time
 
-print(f"all_reduce took {runtime} seconds for {args.num_integers} integers, {4 * args.num_integers / 1024.0**3 / runtime} GB/s")
+print(
+    f"all_reduce took {runtime} seconds for {args.num_integers} integers, {4 * args.num_integers / 1024.0**3 / runtime} GB/s"
+)
 
 a = a[0].item()
 print(f"all_reduce output = {a}")
 assert a == dist.get_world_size(), f"Expected {dist.get_world_size()} but got {a}"
+dist.destroy_process_group()
