@@ -1,4 +1,5 @@
 import argparse
+import os
 import socket
 import time
 
@@ -7,7 +8,17 @@ import torch.distributed as dist
 
 parser = argparse.ArgumentParser(description="DDP AllReduce Example")
 parser.add_argument("--num_integers", type=int, default=1, help="Number of integers to reduce")
+parser.add_argument(
+    "--environment_variables_csv",
+    type=str,
+    default="",
+    help="Environment variables FOO=BAR,BAZ=BOO",
+)
 args = parser.parse_args()
+
+for env_var in args.environment_variables_csv.split(","):
+    key, value = env_var.split("=")
+    os.environ[key] = value
 
 assert torch.cuda.is_available(), "CUDA is not available"
 assert torch.cuda.device_count() == 1, f"Expected 1 GPU, but got {torch.cuda.device_count()}"

@@ -6,17 +6,18 @@ git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_te
 
 # Run test
 ```
-export NUM_GPUS=48
+export NUM_GPUS=2
 
 torchx run \
   --workspace="" \
   --scheduler kubernetes dist.ddp \
   -j ${NUM_GPUS}x1 \
   --gpu 1 \
-  --image gueraf/torchx_tmp@sha256:9b8c58f4a19c576353a09e93afd6af7a8fac66e09bcd449d91ef581f281dae52 \
+  --image gueraf/torchx_tmp@sha256:1d75e28b533088b6221232be1b03f752cdc1fbe88bc9ac723aa1c82cc6921430 \
   --script ddp_allreduce.py \
   -- \
-  --num_integers 1000000
+  --num_integers 1000000 \
+  --environment_variables_csv="NCCL_DEBUG=VERSION,TORCH_NCCL_BLOCKING_WAIT=1"
 
 kubectl get jobs.batch.volcano.sh --sort-by=.metadata.creationTimestamp | tail -n 1
 ```
