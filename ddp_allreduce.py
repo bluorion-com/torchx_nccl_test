@@ -23,9 +23,10 @@ parser.add_argument(
 args = parser.parse_args()
 
 print(f"environment_variables_csv: {args.environment_variables_csv}")
-for env_var in args.environment_variables_csv.split(","):
-    key, value = env_var.split("=")
-    os.environ[key] = value
+if len(args.environment_variables_csv) > 0:
+    for env_var in args.environment_variables_csv.split(","):
+        key, value = env_var.split("=")
+        os.environ[key] = value
 
 assert torch.cuda.is_available(), "CUDA is not available"
 assert torch.cuda.device_count() == 1, f"Expected 1 GPU, but got {torch.cuda.device_count()}"
