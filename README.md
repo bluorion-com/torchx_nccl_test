@@ -12,12 +12,14 @@ torchx run \
   --workspace="" \
   --scheduler kubernetes dist.ddp \
   -j ${NUM_GPUS}x1 \
+  -h gpu.small \
   --gpu 1 \
-  --image gueraf/torchx_tmp@sha256:1d75e28b533088b6221232be1b03f752cdc1fbe88bc9ac723aa1c82cc6921430 \
+  --image gueraf/torchx_tmp@sha256:9481750c6465b3111e5a913bb70b50d7394affbe1fe1c44c649648c99202545f \
   --script ddp_allreduce.py \
   -- \
   --num_integers 1000000 \
-  --environment_variables_csv="NCCL_DEBUG=VERSION,TORCH_NCCL_BLOCKING_WAIT=1"
+  --environment_variables_csv="NCCL_DEBUG=INFO,NCCL_NET=IB" \
+  --sleep_forever=True
 
 kubectl get jobs.batch.volcano.sh --sort-by=.metadata.creationTimestamp | tail -n 1
 ```
