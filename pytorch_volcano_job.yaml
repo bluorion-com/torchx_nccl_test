@@ -1,0 +1,69 @@
+apiVersion: batch.volcano.sh/v1alpha1
+kind: Job
+metadata:
+  name: pytorch-job
+spec:
+  minAvailable: 1
+  schedulerName: volcano
+  plugins:
+    pytorch: ["--master=master", "--worker=worker", "--port=23456"] # Pytorch plugin register
+    svc: []
+  queue: default
+  tasks:
+    - replicas: 1
+      name: master
+      policies:
+        - event: TaskCompleted
+          action: CompleteJob
+      template:
+        spec:
+          containers:
+            - image: gueraf/torchx_tmp@sha256:e4cf5ad4b11e45dc1cf363e56fc14fc24c61039be31226672308c0f9d03fa1dc
+              imagePullPolicy: IfNotPresent
+              name: master
+              command:
+                [
+                  "python3",
+                  "/home/ray/ddp_allreduce.py",
+                  "--num_integers=1000000",
+                  "--environment_variables_csv=NCCL_DEBUG=INFO,NCCL_NET=IB",
+                  "--sleep_forever=True",
+                ]
+              securityContext:
+                capabilities:
+                  add: ["IPC_LOCK", "CAP_SETGID", "CAP_SETUID"]
+              resources:
+                requests:
+                  nvidia.com/gpu: 1
+                  "rdma/rdma_shared_device_a": "1"
+                limits:
+                  nvidia.com/gpu: 1
+                  "rdma/rdma_shared_device_a": "1"
+          restartPolicy: OnFailure
+    - replicas: 47
+      name: worker
+      template:
+        spec:
+          containers:
+            - image: gueraf/torchx_tmp@sha256:e4cf5ad4b11e45dc1cf363e56fc14fc24c61039be31226672308c0f9d03fa1dc
+              imagePullPolicy: IfNotPresent
+              name: worker
+              command:
+                [
+                  "python3",
+                  "/home/ray/ddp_allreduce.py",
+                  "--num_integers=1000000",
+                  "--environment_variables_csv=NCCL_DEBUG=INFO,NCCL_NET=IB",
+                  "--sleep_forever=True",
+                ]
+              securityContext:
+                capabilities:
+                  add: ["IPC_LOCK", "CAP_SETGID", "CAP_SETUID"]
+              resources:
+                requests:
+                  nvidia.com/gpu: 1
+                  "rdma/rdma_shared_device_a": "1"
+                limits:
+                  nvidia.com/gpu: 1
+                  "rdma/rdma_shared_device_a": "1"
+          restartPolicy: OnFailure
