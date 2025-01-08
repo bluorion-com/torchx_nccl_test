@@ -28,6 +28,11 @@ if len(args.environment_variables_csv) > 0:
         key, value = env_var.split("=")
         os.environ[key] = value
 
+print(f"MASTER_PORT: {os.environ.get("MASTER_PORT", "Not Set")}")
+print(f"MASTER_ADDR: {os.environ.get("MASTER_ADDR", "Not Set")}")
+print(f"WORLD_SIZE: {os.environ.get("WORLD_SIZE", "Not Set")}")
+print(f"RANK: {os.environ.get("RANK", "Not Set")}")
+
 assert torch.cuda.is_available(), "CUDA is not available"
 assert torch.cuda.device_count() == 1, f"Expected 1 GPU, but got {torch.cuda.device_count()}"
 gpu_serial_number = torch.cuda.get_device_properties(0).uuid
