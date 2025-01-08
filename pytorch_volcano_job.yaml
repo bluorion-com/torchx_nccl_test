@@ -40,8 +40,17 @@ spec:
                 limits:
                   nvidia.com/gpu: 1
                   "rdma/rdma_shared_device_a": "1"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: ray-gpu-status
+                        operator: In
+                        values:
+                          - volcano
           restartPolicy: OnFailure
-    - replicas: 47
+    - replicas: 2
       name: worker
       template:
         spec:
@@ -68,4 +77,13 @@ spec:
                 limits:
                   nvidia.com/gpu: 1
                   "rdma/rdma_shared_device_a": "1"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: ray-gpu-status
+                        operator: In
+                        values:
+                          - volcano
           restartPolicy: OnFailure
