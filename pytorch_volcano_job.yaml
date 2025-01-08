@@ -18,7 +18,7 @@ spec:
       template:
         spec:
           containers:
-            - image: gueraf/torchx_tmp@sha256:e4cf5ad4b11e45dc1cf363e56fc14fc24c61039be31226672308c0f9d03fa1dc
+            - image: gueraf/torchx_tmp@sha256:6204d3df23fad2534b04c7f9cb525ce098f304d3559ff6218474ba9396d3e7d7
               imagePullPolicy: IfNotPresent
               name: master
               command:
@@ -28,6 +28,7 @@ spec:
                   "--num_integers=1000000",
                   "--environment_variables_csv=NCCL_DEBUG=INFO,NCCL_NET=IB",
                   "--sleep_forever=True",
+                  "--do_work=True",
                 ]
               securityContext:
                 capabilities:
@@ -45,7 +46,7 @@ spec:
       template:
         spec:
           containers:
-            - image: gueraf/torchx_tmp@sha256:e4cf5ad4b11e45dc1cf363e56fc14fc24c61039be31226672308c0f9d03fa1dc
+            - image: gueraf/torchx_tmp@sha256:6204d3df23fad2534b04c7f9cb525ce098f304d3559ff6218474ba9396d3e7d7
               imagePullPolicy: IfNotPresent
               name: worker
               command:
@@ -55,6 +56,7 @@ spec:
                   "--num_integers=1000000",
                   "--environment_variables_csv=NCCL_DEBUG=INFO,NCCL_NET=IB",
                   "--sleep_forever=True",
+                  "--do_work=True",
                 ]
               securityContext:
                 capabilities:

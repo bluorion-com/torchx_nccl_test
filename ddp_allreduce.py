@@ -15,6 +15,12 @@ parser.add_argument(
     help="Environment variables FOO=BAR,BAZ=BOO",
 )
 parser.add_argument(
+    "--do_work",
+    type=bool,
+    default=True,
+    help="Whether to do work.",
+)
+parser.add_argument(
     "--sleep_forever",
     type=bool,
     default=False,
@@ -41,20 +47,22 @@ print(f"GPU Serial Number: {gpu_serial_number}")
 dist.init_process_group(backend="nccl")
 print(f"Worker {dist.get_rank()} of {dist.get_world_size()} started on {socket.gethostname()}!")
 
-a = torch.ones([args.num_integers], dtype=torch.int32, device="cuda")
-dist.barrier()
-start_time = time.time()
-dist.all_reduce(a, op=dist.ReduceOp.SUM)
-end_time = time.time()
-runtime = end_time - start_time
+if args.do_work:
+    a = torch.ones([args.num_integers], dtype=torch.int32, device="cuda")
+    dist.barrier()
+    start_time = time.time()
+    dist.all_reduce(a, op=dist.ReduceOp.SUM)
+    end_time = time.time()
+    runtime = end_time - start_time
 
-print(
-    f"all_reduce took {runtime} seconds for {args.num_integers} integers, {4 * args.num_integers / 1024.0**3 / runtime} GB/s"
-)
+    print(
+        f"all_reduce took {runtime} seconds for {args.num_integers} integers, {4 * args.num_integers / 1024.0**3 / runtime} GB/s"
+    )
 
-a = a[0].item()
-print(f"all_reduce output = {a}")
-assert a == dist.get_world_size(), f"Expected {dist.get_world_size()} but got {a}"
+    a = a[0].item()
+    print(f"all_reduce output = {a}")
+    assert a == dist.get_world_size(), f"Expected {dist.get_world_size()} but got {a}"
+
 dist.destroy_process_group()
 
 if args.sleep_forever:

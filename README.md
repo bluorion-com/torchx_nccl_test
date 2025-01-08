@@ -14,7 +14,7 @@ torchx run \
   -j ${NUM_GPUS}x1 \
   -h gpu.small \
   --gpu 1 \
-  --image gueraf/torchx_tmp@sha256:76cb3cc028dc8a6e38f0234516c85eadc1b7c50c1a4d3fc774b37cbb7221fe10 \
+  --image gueraf/torchx_tmp@sha256:6204d3df23fad2534b04c7f9cb525ce098f304d3559ff6218474ba9396d3e7d7 \
   --script ddp_allreduce.py \
   -- \
   --num_integers 1000000 \
