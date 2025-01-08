@@ -1,4 +1,4 @@
-pipx install torchx[kubernetes]
+pipx install "torchx[kubernetes] @ git+https://github.com/gueraf/torchx.git"
 
 echo "[kubernetes]" > ~/.torchxconfig
 echo "queue=default" >> ~/.torchxconfig
