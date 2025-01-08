@@ -14,8 +14,15 @@ parser.add_argument(
     default="",
     help="Environment variables FOO=BAR,BAZ=BOO",
 )
+parser.add_argument(
+    "--sleep_forever",
+    type=bool,
+    default=False,
+    help="Sleep forever after all_reduce",
+)
 args = parser.parse_args()
 
+print(f"environment_variables_csv: {args.environment_variables_csv}")
 for env_var in args.environment_variables_csv.split(","):
     key, value = env_var.split("=")
     os.environ[key] = value
@@ -43,3 +50,8 @@ a = a[0].item()
 print(f"all_reduce output = {a}")
 assert a == dist.get_world_size(), f"Expected {dist.get_world_size()} but got {a}"
 dist.destroy_process_group()
+
+if args.sleep_forever:
+    print("Sleeping forever...")
+    while True:
+        time.sleep(1)
