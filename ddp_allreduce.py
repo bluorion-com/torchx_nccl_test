@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument(
         "--sleep_forever",
         type=bool,
-        default=True,
+        default=False,
         help="Sleep forever after all_reduce",
     )
     parser.add_argument(
