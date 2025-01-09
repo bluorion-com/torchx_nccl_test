@@ -1,8 +1,30 @@
 # Setup
 ```
 git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_test
-./setup.sh
 ```
+
+# Run test
+```
+# edit pytorch_volcano_job.yaml
+kubectl delete -f pytorch_volcano_job.yaml ; kubectl apply -f pytorch_volcano_job.yaml
+```
+
+# Re-label nodes
+```
+kubectl get nodes --selector='ray-gpu-status=gpu-hospital' \
+  | grep -oP "th03[^\s]+" \
+  | xargs -I % kubectl label node % ray-gpu-status=volcano --overwrite
+```
+
+# Determine size of pool
+```
+kubectl get nodes --selector='ray-gpu-status=volcano' \
+  | grep Ready \
+  | wc -l
+
+```
+
+## Old (torchx) notes
 
 # Run test
 ```
@@ -32,14 +54,6 @@ kubectl get pods \
   | grep -oP "^[^\s]+" \
   | xargs kubectl delete pod
 ```
-
-# Re-label nodes
-```
-kubectl get nodes --selector='ray-gpu-status=gpu-hospital' \
-  | grep -oP "th03[^\s]+" \
-  | xargs -I % kubectl label node % ray-gpu-status=volcano --overwrite
-```
-
 # Debug scheduling issues
 ```
 kubectl get pods -o wide \
@@ -59,13 +73,5 @@ kubectl get jobs.batch.volcano.sh \
 kubectl get pods \
   | grep -oP "ddp[^\s]+" \
   | xargs kubectl delete pod
-
-```
-
-# Determine size of pool
-```
-kubectl get nodes --selector='ray-gpu-status=volcano' \
-  | grep Ready \
-  | wc -l
 
 ```
