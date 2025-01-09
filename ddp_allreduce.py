@@ -64,6 +64,11 @@ def init_process_group():
     )
 
 
+def destroy_process_group():
+    dist.destroy_process_group()
+    print("Process group destroyed", flush=True)
+
+
 def do_work(args):
     a = torch.ones([args.num_integers], dtype=torch.int32, device="cuda")
     dist.barrier()
@@ -95,8 +100,7 @@ def main():
         init_process_group()
         if args.do_work:
             do_work(args)
-        dist.destroy_process_group()
-        print("Process group destroyed", flush=True)
+        destroy_process_group()
 
     if args.sleep_forever:
         sleep_forever()
