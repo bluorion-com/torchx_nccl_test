@@ -13,7 +13,7 @@ def parse_args():
     parser.add_argument(
         "--environment_variables_csv",
         type=str,
-        default="",
+        default="NCCL_DEBUG=INFO,NCCL_NET=IB",
         help="Environment variables FOO=BAR,BAZ=BOO",
     )
     parser.add_argument(
@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument(
         "--sleep_forever",
         type=bool,
-        default=False,
+        default=True,
         help="Sleep forever after all_reduce",
     )
     parser.add_argument(
@@ -57,6 +57,7 @@ def print_info(args):
 
 
 def init_process_group():
+    print("Initializing process group", flush=True)
     dist.init_process_group(backend="nccl")
     print(
         f"Worker {dist.get_rank()} of {dist.get_world_size()} started on {socket.gethostname()}!",
