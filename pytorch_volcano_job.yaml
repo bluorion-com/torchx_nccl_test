@@ -27,7 +27,7 @@ spec:
                   "/home/ray/ddp_allreduce.py",
                   "--num_integers=10",
                   "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
-                  "--sleep_forever=True",
+                  "--sleep_forever=False",
                   "--do_work=True",
                   "--print_info_only=False",
                 ]
@@ -46,12 +46,20 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                   - matchExpressions:
-                      - key: ray-gpu-status
+                      - key: kubernetes.io/hostname
                         operator: In
                         values:
-                          - volcano
-    - replicas: 3
+                          # good node(s0
+                          - th03-bluorion-w41.gmicloud.ai
+                          # bad node(s)
+                          # - th03-bluorion-w12.gmicloud.ai
+                          # - th03-bluorion-w17.gmicloud.ai
+                          # - th03-bluorion-w23.gmicloud.ai
+                          # - th03-bluorion-w30.gmicloud.ai
+                          # - th03-bluorion-w38.gmicloud.ai
+                          # - th03-bluorion-w43.gmicloud.ai
           restartPolicy: Never
+    - replicas: 7
       name: worker
       template:
         spec:
@@ -65,7 +73,7 @@ spec:
                   "/home/ray/ddp_allreduce.py",
                   "--num_integers=10",
                   "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
-                  "--sleep_forever=True",
+                  "--sleep_forever=False",
                   "--do_work=True",
                   "--print_info_only=False",
                 ]
@@ -84,8 +92,16 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                   - matchExpressions:
-                      - key: ray-gpu-status
+                      - key: kubernetes.io/hostname
                         operator: In
                         values:
-                          - volcano
+                          # good node(s0
+                          - th03-bluorion-w41.gmicloud.ai
+                          # bad node(s)
+                          # - th03-bluorion-w12.gmicloud.ai
+                          # - th03-bluorion-w17.gmicloud.ai
+                          # - th03-bluorion-w23.gmicloud.ai
+                          # - th03-bluorion-w30.gmicloud.ai
+                          # - th03-bluorion-w38.gmicloud.ai
+                          # - th03-bluorion-w43.gmicloud.ai
           restartPolicy: Never
