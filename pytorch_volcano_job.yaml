@@ -50,8 +50,8 @@ spec:
                         operator: In
                         values:
                           - volcano
-          restartPolicy: OnFailure
     - replicas: 3
+          restartPolicy: Never
       name: worker
       template:
         spec:
@@ -88,4 +88,4 @@ spec:
                         operator: In
                         values:
                           - volcano
-          restartPolicy: OnFailure
+          restartPolicy: Never
