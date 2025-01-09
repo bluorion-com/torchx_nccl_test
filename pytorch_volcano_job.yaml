@@ -21,15 +21,14 @@ spec:
             - image: gueraf/torchx_tmp@sha256:a0ce322918f39b9a22c8ab97c86760781d7bbeb2875ec45dd75ea02b15e89a8b
               imagePullPolicy: IfNotPresent
               name: master
-              command:
-                [
+              command: [
                   "python3",
                   "/home/ray/ddp_allreduce.py",
-                  "--num_integers=10",
+                  # "--num_integers=10",
                   "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
-                  "--sleep_forever=False",
-                  "--do_work=True",
-                  "--print_info_only=False",
+                  # "--sleep_forever=False",
+                  # "--do_work=True",
+                  # "--print_info_only=False",
                 ]
               securityContext:
                 capabilities:
@@ -50,11 +49,11 @@ spec:
                         operator: In
                         values:
                           # good node(s0
-                          - th03-bluorion-w41.gmicloud.ai
+                          # - th03-bluorion-w41.gmicloud.ai
                           # bad node(s)
-                          # - th03-bluorion-w12.gmicloud.ai
+                          - th03-bluorion-w12.gmicloud.ai
                           # - th03-bluorion-w17.gmicloud.ai
-                          # - th03-bluorion-w23.gmicloud.ai
+                          # - th03-bluorion-w20.gmicloud.ai
                           # - th03-bluorion-w30.gmicloud.ai
                           # - th03-bluorion-w38.gmicloud.ai
                           # - th03-bluorion-w43.gmicloud.ai
@@ -67,15 +66,14 @@ spec:
             - image: gueraf/torchx_tmp@sha256:a0ce322918f39b9a22c8ab97c86760781d7bbeb2875ec45dd75ea02b15e89a8b
               imagePullPolicy: IfNotPresent
               name: worker
-              command:
-                [
+              command: [
                   "python3",
                   "/home/ray/ddp_allreduce.py",
-                  "--num_integers=10",
+                  # "--num_integers=10",
                   "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
-                  "--sleep_forever=False",
-                  "--do_work=True",
-                  "--print_info_only=False",
+                  # "--sleep_forever=False",
+                  # "--do_work=True",
+                  # "--print_info_only=False",
                 ]
               securityContext:
                 capabilities:
@@ -96,11 +94,11 @@ spec:
                         operator: In
                         values:
                           # good node(s0
-                          - th03-bluorion-w41.gmicloud.ai
+                          # - th03-bluorion-w41.gmicloud.ai
                           # bad node(s)
-                          # - th03-bluorion-w12.gmicloud.ai
+                          - th03-bluorion-w12.gmicloud.ai
                           # - th03-bluorion-w17.gmicloud.ai
-                          # - th03-bluorion-w23.gmicloud.ai
+                          # - th03-bluorion-w20.gmicloud.ai
                           # - th03-bluorion-w30.gmicloud.ai
                           # - th03-bluorion-w38.gmicloud.ai
                           # - th03-bluorion-w43.gmicloud.ai
