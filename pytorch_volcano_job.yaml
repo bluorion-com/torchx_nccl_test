@@ -18,17 +18,18 @@ spec:
       template:
         spec:
           containers:
-            - image: gueraf/torchx_tmp@sha256:6204d3df23fad2534b04c7f9cb525ce098f304d3559ff6218474ba9396d3e7d7
+            - image: gueraf/torchx_tmp@sha256:a0ce322918f39b9a22c8ab97c86760781d7bbeb2875ec45dd75ea02b15e89a8b
               imagePullPolicy: IfNotPresent
               name: master
               command:
                 [
                   "python3",
                   "/home/ray/ddp_allreduce.py",
-                  "--num_integers=1000000",
-                  "--environment_variables_csv=NCCL_DEBUG=INFO,NCCL_NET=IB",
+                  "--num_integers=10",
+                  "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
                   "--sleep_forever=True",
                   "--do_work=True",
+                  "--print_info_only=False",
                 ]
               securityContext:
                 capabilities:
@@ -50,22 +51,23 @@ spec:
                         values:
                           - volcano
           restartPolicy: OnFailure
-    - replicas: 2
+    - replicas: 3
       name: worker
       template:
         spec:
           containers:
-            - image: gueraf/torchx_tmp@sha256:6204d3df23fad2534b04c7f9cb525ce098f304d3559ff6218474ba9396d3e7d7
+            - image: gueraf/torchx_tmp@sha256:a0ce322918f39b9a22c8ab97c86760781d7bbeb2875ec45dd75ea02b15e89a8b
               imagePullPolicy: IfNotPresent
               name: worker
               command:
                 [
                   "python3",
                   "/home/ray/ddp_allreduce.py",
-                  "--num_integers=1000000",
-                  "--environment_variables_csv=NCCL_DEBUG=INFO,NCCL_NET=IB",
+                  "--num_integers=10",
+                  "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
                   "--sleep_forever=True",
                   "--do_work=True",
+                  "--print_info_only=False",
                 ]
               securityContext:
                 capabilities:
