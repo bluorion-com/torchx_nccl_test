@@ -24,11 +24,9 @@ spec:
               command: [
                   "python3",
                   "/home/ray/ddp_allreduce.py",
-                  # "--num_integers=10",
                   "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
                   "--sleep_forever=True",
-                  "--do_work=False",
-                  "--print_info_only=True",
+                  # "--do_work=False",
                 ]
               securityContext:
                 capabilities:
@@ -85,11 +83,9 @@ spec:
               command: [
                   "python3",
                   "/home/ray/ddp_allreduce.py",
-                  # "--num_integers=10",
                   "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
                   "--sleep_forever=True",
-                  "--do_work=False",
-                  "--print_info_only=True",
+                  # "--do_work=False",
                 ]
               securityContext:
                 capabilities:

@@ -1,22 +1,23 @@
-# Setup
+# Torch job
+## Setup
 ```
 git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_test
 ```
 
-# Run test
+## Run test
 ```
 # edit pytorch_volcano_job.yaml
 kubectl delete -f pytorch_volcano_job.yaml ; kubectl apply -f pytorch_volcano_job.yaml
 ```
 
-# Re-label nodes
+## Re-label nodes
 ```
 kubectl get nodes --selector='ray-gpu-status=gpu-hospital' \
   | grep -oP "th03[^\s]+" \
   | xargs -I % kubectl label node % ray-gpu-status=volcano --overwrite
 ```
 
-# Determine size of pool
+## Determine size of pool
 ```
 kubectl get nodes --selector='ray-gpu-status=volcano' \
   | grep Ready \
@@ -24,9 +25,22 @@ kubectl get nodes --selector='ray-gpu-status=volcano' \
 
 ```
 
-## Old (torchx) notes
+# Mellanox RDMA test
+```
+POD=pytorch-job-master-0
+kubectl exec --stdin --tty $POD --container rdma-test -- /bin/bash
+./start_server.sh
+```
 
-# Run test
+```
+POD=pytorch-job-worker-0
+kubectl exec --stdin --tty $POD --container rdma-test -- /bin/bash
+./start_client.sh pytorch-job-master-0.pytorch-job
+```
+
+# Old (torchx) notes
+
+## Run test
 ```
 export NUM_GPUS=2
 
@@ -46,7 +60,7 @@ torchx run \
 kubectl get jobs.batch.volcano.sh --sort-by=.metadata.creationTimestamp | tail -n 1
 ```
 
-# Restart scheduler (after re-tagging)
+## Restart scheduler (after re-tagging)
 ```
 kubectl get pods \
   | grep volcano \
@@ -54,7 +68,7 @@ kubectl get pods \
   | grep -oP "^[^\s]+" \
   | xargs kubectl delete pod
 ```
-# Debug scheduling issues
+## Debug scheduling issues
 ```
 kubectl get pods -o wide \
   | grep ddpallreduce \
@@ -64,7 +78,7 @@ kubectl get pods -o wide \
 
 ```
 
-# Cleanup
+## Cleanup
 ```
 kubectl get jobs.batch.volcano.sh \
   | grep -oP "ddp[^\s]+" \
