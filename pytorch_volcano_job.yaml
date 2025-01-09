@@ -26,9 +26,9 @@ spec:
                   "/home/ray/ddp_allreduce.py",
                   # "--num_integers=10",
                   "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
-                  # "--sleep_forever=False",
-                  # "--do_work=True",
-                  # "--print_info_only=False",
+                  "--sleep_forever=True",
+                  "--do_work=False",
+                  "--print_info_only=True",
                 ]
               securityContext:
                 capabilities:
@@ -40,6 +40,22 @@ spec:
                 limits:
                   nvidia.com/gpu: 1
                   "rdma/rdma_shared_device_a": "1"
+            - name: rdma-test
+              image: gueraf/perftest@sha256:a8ad5d13cabab9e2a00bb69ad8e2c40d75b2dda38c73c78b3fda2f9a01605c7b
+              securityContext:
+                capabilities:
+                  add: ["IPC_LOCK"]
+              resources:
+                limits:
+                  "rdma/rdma_shared_device_a": "1"
+                requests:
+                  "rdma/rdma_shared_device_a": "1"
+              command:
+                - sh
+                - -c
+                - |
+                  ls -l /dev/infiniband /sys/class/infiniband /sys/class/net
+                  sleep infinity
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -71,9 +87,9 @@ spec:
                   "/home/ray/ddp_allreduce.py",
                   # "--num_integers=10",
                   "--environment_variables_csv=NCCL_DEBUG=TRACE,NCCL_NET=IB",
-                  # "--sleep_forever=False",
-                  # "--do_work=True",
-                  # "--print_info_only=False",
+                  "--sleep_forever=True",
+                  "--do_work=False",
+                  "--print_info_only=True",
                 ]
               securityContext:
                 capabilities:
@@ -85,6 +101,22 @@ spec:
                 limits:
                   nvidia.com/gpu: 1
                   "rdma/rdma_shared_device_a": "1"
+            - name: rdma-test
+              image: gueraf/perftest@sha256:a8ad5d13cabab9e2a00bb69ad8e2c40d75b2dda38c73c78b3fda2f9a01605c7b
+              securityContext:
+                capabilities:
+                  add: ["IPC_LOCK"]
+              resources:
+                limits:
+                  "rdma/rdma_shared_device_a": "1"
+                requests:
+                  "rdma/rdma_shared_device_a": "1"
+              command:
+                - sh
+                - -c
+                - |
+                  ls -l /dev/infiniband /sys/class/infiniband /sys/class/net
+                  sleep infinity
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
