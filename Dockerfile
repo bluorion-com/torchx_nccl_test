@@ -5,7 +5,8 @@ RUN sudo apt update && \
     pip \
     infiniband-diags \
     libibverbs-dev \
-    && sudo apt clean
+    && sudo apt clean && \
+    sudo rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 RUN pip install torch==2.5.1
 
 COPY ddp_allreduce.py ddp_allreduce.py
