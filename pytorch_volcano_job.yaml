@@ -63,7 +63,7 @@ spec:
                         operator: In
                         values:
                           # good node(s)
-                          # - th03-bluorion-w41.gmicloud.ai
+                          - th03-bluorion-w2.gmicloud.ai
                           # good nodes) - time shared GPU
                           # - th03-bluorion-w16.gmicloud.ai
                           # - th03-bluorion-w18.gmicloud.ai
@@ -74,7 +74,7 @@ spec:
                           # - th03-bluorion-w30.gmicloud.ai
                           # - th03-bluorion-w38.gmicloud.ai
                           # - th03-bluorion-w43.gmicloud.ai
-                        - th03-bluorion-w37.gmicloud.ai
+                          # - th03-bluorion-w37.gmicloud.ai
           restartPolicy: Never
     - replicas: 7
       name: worker
@@ -125,13 +125,17 @@ spec:
                       - key: kubernetes.io/hostname
                         operator: In
                         values:
-                          # good node(s0
-                          # - th03-bluorion-w41.gmicloud.ai
+                          # good node(s)
+                          - th03-bluorion-w2.gmicloud.ai
+                          # good nodes) - time shared GPU
+                          # - th03-bluorion-w16.gmicloud.ai
+                          # - th03-bluorion-w18.gmicloud.ai
                           # bad node(s)
-                          - th03-bluorion-w12.gmicloud.ai
+                          # - th03-bluorion-w12.gmicloud.ai
                           # - th03-bluorion-w17.gmicloud.ai
                           # - th03-bluorion-w20.gmicloud.ai
                           # - th03-bluorion-w30.gmicloud.ai
                           # - th03-bluorion-w38.gmicloud.ai
                           # - th03-bluorion-w43.gmicloud.ai
+                          # - th03-bluorion-w37.gmicloud.ai
           restartPolicy: Never
