@@ -1,8 +1,4 @@
 # Torch job
-## Setup
-```
-git clone https://github.com/bluorion-com/torchx_nccl_test.git && torchx_nccl_test
-```
 
 ## Run test
 ```
